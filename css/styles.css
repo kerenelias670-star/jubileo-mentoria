@@ -366,4 +366,29 @@ hr {
   .glassLogin h1 {
     font-size: 58px;
   }
+}.glassLogin {
+  background: rgba(7, 29, 61, 0.72);
+  backdrop-filter: blur(18px);
+}
+
+.glassLogin h1 {
+  font-size: 82px;
+  text-align: center;
+}
+
+.glassLogin button#loginBtn {
+  width: 100%;
+  background: linear-gradient(135deg, #c69b4c, #f4d27a);
+  color: #071d3d;
+  font-size: 16px;
+  margin-top: 18px;
+}
+
+.createLine {
+  text-align: center;
+  margin-top: 22px;
+}
+
+.linkBtn {
+  font-weight: 800;
 }
