@@ -12,11 +12,6 @@ import {
   doc,
   getDoc,
   setDoc,
-  updateDoc,
-  collection,
-  query,
-  where,
-  onSnapshot,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
@@ -36,40 +31,40 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 const $ = (id) => document.getElementById(id);
-let currentUser = null;
-let currentProfile = null;
 
-function show(el) { el.classList.remove("hidden"); }
-function hide(el) { el.classList.add("hidden"); }
-
-function showOnly(section) {
-  hide($("authBox"));
-  hide($("pendingBox"));
-  hide($("dashboard"));
-  show(section);
+function showOnly(sectionId) {
+  ["authBox", "pendingBox", "dashboard"].forEach(id => {
+    $(id).classList.add("hidden");
+  });
+  $(sectionId).classList.remove("hidden");
 }
 
-function setMessage(text) {
-  $("authMessage").textContent = text || "";
-}async function registerUser() {
-  setMessage("");
+function message(text) {
+  $("authMessage").textContent = text;
+}
 
+async function createAccount() {
+  const fullName = $("fullName").value.trim();
+  const gender = $("gender").value;
   const email = $("email").value.trim().toLowerCase();
   const password = $("password").value.trim();
 
-  if (!email || !password) {
-    setMessage("Por favor completa todos los campos.");
+  if (!fullName || !gender || !email || !password) {
+    message("Por favor completa todos los campos.");
     return;
   }
 
   try {
-    const cred = await createUserWithEmailAndPassword(auth, email, password);
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
 
     const role = email === ADMIN_EMAIL ? "admin" : "participant";
     const status = email === ADMIN_EMAIL ? "approved" : "pending";
 
-    await setDoc(doc(db, "users", cred.user.uid), {
-      uid: cred.user.uid,
+    await setDoc(doc(db, "users", user.uid), {
+      uid: user.uid,
+      fullName,
+      gender,
       email,
       role,
       status,
@@ -77,91 +72,81 @@ function setMessage(text) {
     });
 
     if (status === "pending") {
-      showOnly($("pendingBox"));
+      showOnly("pendingBox");
+    } else {
+      showDashboard({ fullName, gender, email, role, status });
     }
-
-  } catch (err) {
-    setMessage(err.message);
+  } catch (error) {
+    message(error.message);
   }
 }
 
-async function loginUser() {
-  setMessage("");
+async function login() {
+  const email = $("email").value.trim().toLowerCase();
+  const password = $("password").value.trim();
+
+  if (!email || !password) {
+    message("Escribe tu correo y contraseña.");
+    return;
+  }
 
   try {
-    await signInWithEmailAndPassword(
-      auth,
-      $("email").value.trim(),
-      $("password").value.trim()
-    );
-  } catch (err) {
-    setMessage("Correo o contraseña incorrectos.");
+    await signInWithEmailAndPassword(auth, email, password);
+  } catch {
+    message("Correo o contraseña incorrectos.");
   }
-}async function logoutUser() {
+}
+
+async function logout() {
   await signOut(auth);
 }
 
-async function loadUserProfile(user) {
-  const ref = doc(db, "users", user.uid);
-  const snap = await getDoc(ref);
-
-  if (!snap.exists()) {
-    const email = user.email.toLowerCase();
-    const role = email === ADMIN_EMAIL ? "admin" : "participant";
-    const status = role === "admin" ? "approved" : "pending";
-
-    await setDoc(ref, {
-      uid: user.uid,
-      email,
-      role,
-      status,
-      createdAt: serverTimestamp()
-    });
-
-    return { uid: user.uid, email, role, status };
-  }
-
-  return snap.data();
+async function getProfile(user) {
+  const snap = await getDoc(doc(db, "users", user.uid));
+  return snap.exists() ? snap.data() : null;
 }
 
-function renderDashboard() {
-  showOnly($("dashboard"));
+function showDashboard(profile) {
+  showOnly("dashboard");
 
-  const roleLabel =
-    currentProfile.role === "admin"
-      ? "Administradora"
-      : currentProfile.role === "pastor"
-      ? "Pastor(a)"
-      : "Participante";
+  const welcome = profile.gender === "male" ? "Bienvenido" : "Bienvenida";
+  $("welcomeTitle").textContent = `${welcome}, ${profile.fullName}`;
+  $("roleText").textContent =
+    profile.role === "admin"
+      ? "Rol: Administradora"
+      : profile.role === "pastor"
+      ? "Rol: Pastor(a)"
+      : "Rol: Participante";
 
-  $("welcomeTitle").textContent = `Bienvenido(a), ${currentProfile.email}`;
-  $("roleText").textContent = `Rol: ${roleLabel}`;
-
-  if (currentProfile.role === "admin") {
-    show($("adminPanel"));
+  if (profile.role === "admin") {
+    $("adminPanel").classList.remove("hidden");
   } else {
-    hide($("adminPanel"));
+    $("adminPanel").classList.add("hidden");
   }
-}onAuthStateChanged(auth, async (user) => {
-  currentUser = user;
+}
 
+onAuthStateChanged(auth, async (user) => {
   if (!user) {
-    currentProfile = null;
-    showOnly($("authBox"));
+    showOnly("authBox");
     return;
   }
 
-  currentProfile = await loadUserProfile(user);
+  const profile = await getProfile(user);
 
-  if (currentProfile.status !== "approved") {
-    showOnly($("pendingBox"));
+  if (!profile) {
+    showOnly("pendingBox");
     return;
   }
 
-  renderDashboard();
+  if (profile.status !== "approved") {
+    showOnly("pendingBox");
+    return;
+  }
+
+  showDashboard(profile);
 });
 
-$("registerBtn").addEventListener("click", registerUser);
-$("loginBtn").addEventListener("click", loginUser);
-$("logoutBtn").addEventListener("click", logoutUser);
-$("logoutPending").addEventListener("click", logoutUser);
+$("registerBtn").addEventListener("click", createAccount);
+$("loginBtn").addEventListener("click", login);
+$("logoutBtn").addEventListener("click", logout);
+$("logoutPending").addEventListener("click", logout);
