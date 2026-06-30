@@ -16,20 +16,26 @@
   <main class="app">
 
     <section class="hero">
-      <div class="brand">
-        <div class="logoBox">
-          <div class="logoMark">✦</div>
-          <div class="logoText">JUBILEO CHURCH</div>
-        </div>
+<div class="brand">
 
-        <div>
-          <div class="eyebrow">Jubileo Church</div>
-          <h1>Mentoría Pastoral</h1>
-          <p class="pastores">Pastor Edwin Mendoza y Pastora Eunice Arista de Mendoza</p>
-        </div>
-      </div>
+    <img src="images/jubileo-logo.jpg" class="churchLogo" alt="Jubileo Church Logo">
 
-      <div class="verse">
+    <div class="titleArea">
+        <div class="eyebrow">Jubileo Church</div>
+        <h1>Mentoría Pastoral</h1>
+
+        <p class="pastores">
+            Pastor Edwin Mendoza y<br>
+            Pastora Eunice Arista de Mendoza
+        </p>
+    </div>
+
+</div>
+
+<div class="pastorsPhoto">
+    <img src="images/pastores.jpg" alt="Pastores Jubileo">
+</div>
+<div class="verse">
         “Siguiendo la verdad en amor, crezcamos en todo en aquel que es la cabeza, esto es, Cristo.”
         <small>Efesios 4:15</small>
       </div>
@@ -113,4 +119,44 @@
 
   <script type="module" src="js/app.js"></script>
 </body>
-</html>
+</html>.churchLogo{
+    display:block;
+    width:180px;
+    margin:0 auto 20px;
+}
+
+.titleArea{
+    text-align:center;
+}
+
+.pastorsPhoto{
+    display:flex;
+    justify-content:center;
+    margin:35px 0;
+}
+
+.pastorsPhoto img{
+    width:420px;
+    max-width:90%;
+    border-radius:24px;
+    border:6px solid #d4af37;
+    box-shadow:0 20px 45px rgba(0,0,0,.25);
+    transition:.35s;
+}
+
+.pastorsPhoto img:hover{
+    transform:scale(1.02);
+}
+
+.hero{
+    text-align:center;
+}
+
+h1{
+    font-size:90px;
+    margin-bottom:10px;
+}
+
+.pastores{
+    font-size:28px;
+}
