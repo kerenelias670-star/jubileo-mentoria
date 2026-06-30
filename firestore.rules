@@ -1,0 +1,44 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function userDoc() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    function approved() {
+      return signedIn() && userDoc().data.status == "approved";
+    }
+
+    function isAdmin() {
+      return signedIn() && userDoc().data.role == "admin";
+    }
+
+    function isPastor() {
+      return signedIn() && (userDoc().data.role == "pastor" || userDoc().data.role == "admin");
+    }
+
+    match /users/{userId} {
+      allow create: if signedIn() && request.auth.uid == userId;
+      allow read: if signedIn() && (request.auth.uid == userId || isAdmin());
+      allow update: if signedIn() && (request.auth.uid == userId || isAdmin());
+      allow delete: if false;
+    }
+
+    match /sessions/{sessionId} {
+      allow read: if approved();
+      allow create, delete: if isAdmin();
+      allow update: if isAdmin() || isPastor();
+    }
+
+    match /notes/{noteId} {
+      allow create: if approved() && request.resource.data.userId == request.auth.uid;
+      allow read: if approved() && (resource.data.userId == request.auth.uid || resource.data.shared == true || isAdmin());
+      allow update, delete: if approved() && (resource.data.userId == request.auth.uid || isAdmin());
+    }
+  }
+}
