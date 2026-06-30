@@ -169,4 +169,73 @@ hr {
   body {
     padding: 12px;
   }
+}.splitHero {
+  min-height: 92vh;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  background: #071d3d;
+  border-radius: 34px;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0,0,0,.34);
+  margin-bottom: 18px;
+}
+
+.pastorSide {
+  position: relative;
+  min-height: 92vh;
+  background: #000;
+}
+
+.pastorSide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.loginSide {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px;
+  background: linear-gradient(135deg, #fffdf8, #fff3d8);
+}
+
+.loginSide h1 {
+  font-family: "Great Vibes", cursive;
+  font-size: 86px;
+  color: #071d3d;
+  margin: 0 0 20px;
+}
+
+.heroVerse {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 26px;
+  color: #293a55;
+  line-height: 1.3;
+}
+
+.loginSide small {
+  color: #c69b4c;
+  letter-spacing: 2px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+  .splitHero {
+    grid-template-columns: 1fr;
+  }
+
+  .pastorSide {
+    min-height: 45vh;
+  }
+
+  .loginSide {
+    padding: 32px 22px;
+  }
+
+  .loginSide h1 {
+    font-size: 60px;
+  }
 }
