@@ -391,4 +391,15 @@ hr {
 
 .linkBtn {
   font-weight: 800;
+}.pastorSide {
+  height: 92vh;
+  overflow: hidden;
+}
+
+.pastorSide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
 }
