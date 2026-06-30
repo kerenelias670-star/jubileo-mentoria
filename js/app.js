@@ -149,4 +149,10 @@ onAuthStateChanged(auth, async (user) => {
 $("registerBtn").addEventListener("click", createAccount);
 $("loginBtn").addEventListener("click", login);
 $("logoutBtn").addEventListener("click", logout);
-$("logoutPending").addEventListener("click", logout);
+$("logoutPending").addEventListener("click", logout);$("openRegisterBtn").addEventListener("click", () => {
+  $("registerModal").classList.remove("hidden");
+});
+
+$("closeRegisterBtn").addEventListener("click", () => {
+  $("registerModal").classList.add("hidden");
+});

@@ -238,4 +238,132 @@ hr {
   .loginSide h1 {
     font-size: 60px;
   }
+}.splitHero {
+  min-height: 92vh;
+  display: grid;
+  grid-template-columns: 1.08fr 0.92fr;
+  border-radius: 34px;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0,0,0,.35);
+}
+
+.pastorSide img {
+  width: 100%;
+  height: 92vh;
+  object-fit: cover;
+  object-position: center;
+}
+
+.loginSide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 42px;
+  background: linear-gradient(135deg, #071d3d, #102f5d);
+}
+
+.glassLogin {
+  width: 100%;
+  max-width: 470px;
+  padding: 42px;
+  border-radius: 30px;
+  background: rgba(255,255,255,.13);
+  border: 1px solid rgba(198,155,76,.65);
+  box-shadow: 0 25px 70px rgba(0,0,0,.35);
+  backdrop-filter: blur(14px);
+  color: white;
+  animation: fadeUp .8s ease both;
+}
+
+.glassLogin h1 {
+  font-family: "Great Vibes", cursive;
+  font-size: 76px;
+  color: #f4d27a;
+  margin: 0 0 16px;
+  text-shadow: 0 8px 28px rgba(0,0,0,.35);
+}
+
+.heroVerse {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 22px;
+  line-height: 1.35;
+  color: #fff7df;
+}
+
+.glassLogin small {
+  color: #f4d27a;
+  letter-spacing: 2px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.loginFields {
+  margin-top: 24px;
+}
+
+.createLine {
+  margin-top: 18px;
+  color: #fff7df;
+}
+
+.linkBtn {
+  background: transparent;
+  color: #f4d27a;
+  box-shadow: none;
+  padding: 0 4px;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(7,29,61,.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  z-index: 999;
+}
+
+.modalCard {
+  width: 100%;
+  max-width: 480px;
+  background: #fffdf8;
+  border: 1px solid rgba(198,155,76,.65);
+  border-radius: 28px;
+  padding: 28px;
+  box-shadow: 0 30px 90px rgba(0,0,0,.45);
+  position: relative;
+}
+
+.closeBtn {
+  position: absolute;
+  right: 18px;
+  top: 14px;
+  background: transparent;
+  color: #071d3d;
+  box-shadow: none;
+  font-size: 28px;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 900px) {
+  .splitHero {
+    grid-template-columns: 1fr;
+  }
+
+  .pastorSide img {
+    height: 38vh;
+  }
+
+  .loginSide {
+    padding: 24px;
+  }
+
+  .glassLogin h1 {
+    font-size: 58px;
+  }
 }

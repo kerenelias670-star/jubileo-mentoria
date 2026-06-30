@@ -16,41 +16,34 @@
   <main class="app">
 
     <section class="splitHero">
-  <div class="pastorSide">
-    <img src="images/pastores.jpg" alt="Pastores Jubileo">
-  </div>
-
-  <div class="loginSide">
-    <h1>Mentoría Pastoral</h1>
-    <p class="heroVerse">
-      “Siguiendo la verdad en amor, crezcamos en todo en aquel que es la cabeza, esto es, Cristo.”
-    </p>
-    <small>Efesios 4:15</small>
-  </div>
-</section>
-
-    <section class="card auth-card" id="authBox">
-      <h2>Bienvenido(a) a Mentoría Pastoral</h2>
-      <p class="muted">
-        Inicia sesión o crea tu cuenta para acceder a las enseñanzas,
-        tu cuaderno personal y las reflexiones del equipo.
-      </p>
-<input id="fullName" type="text" placeholder="Nombre completo" />
-
-<select id="gender">
-  <option value="">Selecciona tu sexo</option>
-  <option value="female">Mujer</option>
-  <option value="male">Hombre</option>
-</select>
-      <input id="email" type="email" placeholder="Correo electrónico" />
-      <input id="password" type="password" placeholder="Contraseña" />
-
-      <div class="row">
-        <button id="loginBtn">Entrar</button>
-        <button id="registerBtn" class="light">Crear cuenta</button>
+      <div class="pastorSide">
+        <img src="images/pastores.jpg" alt="Pastores Jubileo">
       </div>
 
-      <p id="authMessage" class="message"></p>
+      <div class="loginSide">
+        <section class="glassLogin" id="authBox">
+          <h1>Mentoría Pastoral</h1>
+
+          <p class="heroVerse">
+            “Siguiendo la verdad en amor, crezcamos en todo en aquel que es la cabeza, esto es, Cristo.”
+          </p>
+          <small>Efesios 4:15</small>
+
+          <div class="loginFields">
+            <input id="email" type="email" placeholder="Correo electrónico" />
+            <input id="password" type="password" placeholder="Contraseña" />
+          </div>
+
+          <button id="loginBtn">Entrar</button>
+
+          <div class="createLine">
+            ¿Primera vez?
+            <button id="openRegisterBtn" class="linkBtn">Crear cuenta</button>
+          </div>
+
+          <p id="authMessage" class="message"></p>
+        </section>
+      </div>
     </section>
 
     <section class="card hidden" id="pendingBox">
@@ -103,48 +96,30 @@
       </section>
     </section>
 
+    <div class="modal hidden" id="registerModal">
+      <div class="modalCard">
+        <button class="closeBtn" id="closeRegisterBtn">×</button>
+        <h2>Crear cuenta</h2>
+        <p class="muted">Completa tu información. Tu acceso será aprobado por la administradora.</p>
+
+        <input id="fullName" type="text" placeholder="Nombre completo" />
+
+        <select id="gender">
+          <option value="">Selecciona tu sexo</option>
+          <option value="female">Mujer</option>
+          <option value="male">Hombre</option>
+        </select>
+
+        <input id="registerEmail" type="email" placeholder="Correo electrónico" />
+        <input id="registerPassword" type="password" placeholder="Contraseña" />
+        <input id="confirmPassword" type="password" placeholder="Confirmar contraseña" />
+
+        <button id="registerBtn">Crear cuenta</button>
+      </div>
+    </div>
+
   </main>
 
   <script type="module" src="js/app.js"></script>
 </body>
-</html>.churchLogo{
-    display:block;
-    width:180px;
-    margin:0 auto 20px;
-}
-
-.titleArea{
-    text-align:center;
-}
-
-.pastorsPhoto{
-    display:flex;
-    justify-content:center;
-    margin:35px 0;
-}
-
-.pastorsPhoto img{
-    width:420px;
-    max-width:90%;
-    border-radius:24px;
-    border:6px solid #d4af37;
-    box-shadow:0 20px 45px rgba(0,0,0,.25);
-    transition:.35s;
-}
-
-.pastorsPhoto img:hover{
-    transform:scale(1.02);
-}
-
-.hero{
-    text-align:center;
-}
-
-h1{
-    font-size:90px;
-    margin-bottom:10px;
-}
-
-.pastores{
-    font-size:28px;
-}
+</html>
