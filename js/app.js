@@ -10,6 +10,11 @@ import {
   doc,
   getDoc,
   setDoc,
+  updateDoc,
+  collection,
+  query,
+  where,
+  onSnapshot,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 import { auth, db } from "./firebase-config.js";
@@ -134,6 +139,10 @@ onAuthStateChanged(auth, async (user) => {
   }
 
   showDashboard(profile);
+
+if (profile.role === "admin" || profile.role === "pastor") {
+  listenPendingUsers(profile);
+}
 });
 
 $("registerBtn").addEventListener("click", createAccount);
@@ -146,4 +155,55 @@ $("openRegisterBtn").addEventListener("click", () => {
 
 $("closeRegisterBtn").addEventListener("click", () => {
   $("registerModal").classList.add("hidden");
-});
+});function canLead(profile) {
+  return profile.role === "admin" || profile.role === "pastor";
+}
+
+function listenPendingUsers(profile) {
+  if (!canLead(profile)) return;
+
+  const q = query(collection(db, "users"), where("status", "==", "pending"));
+
+  onSnapshot(q, (snapshot) => {
+    const box = $("pendingUsers");
+
+    if (snapshot.empty) {
+      box.innerHTML = "<p>No hay solicitudes pendientes.</p>";
+      return;
+    }
+
+    box.innerHTML = "";
+
+    snapshot.forEach((docSnap) => {
+      const user = docSnap.data();
+
+      const card = document.createElement("div");
+      card.className = "user-request";
+      card.innerHTML = `
+        <p><strong>${user.fullName}</strong></p>
+        <p>${user.email}</p>
+        <p>${user.gender === "male" ? "Hombre" : "Mujer"}</p>
+        <button data-id="${docSnap.id}" data-role="participant">Aprobar participante</button>
+        <button data-id="${docSnap.id}" data-role="pastor">Aprobar pastor(a)</button>
+        <button data-id="${docSnap.id}" data-role="rejected" class="danger">Rechazar</button>
+      `;
+
+      card.querySelectorAll("button").forEach((btn) => {
+        btn.addEventListener("click", async () => {
+          if (btn.dataset.role === "rejected") {
+            await updateDoc(doc(db, "users", btn.dataset.id), {
+              status: "rejected"
+            });
+          } else {
+            await updateDoc(doc(db, "users", btn.dataset.id), {
+              status: "approved",
+              role: btn.dataset.role
+            });
+          }
+        });
+      });
+
+      box.appendChild(card);
+    });
+  });
+}
