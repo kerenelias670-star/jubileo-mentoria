@@ -66,10 +66,13 @@ import {
                                                                                                                           createdAt: serverTimestamp()
                                                                                                                               });
 
-                                                                                                                                  if (status === "pending") {
-                                                                                                                                        showOnly("pendingBox");
-                                                                                                                                            } else {
-                                                                                                                                                  showDashboard({ fullName, gender, email, role, status });
+                                                                                                                                 if (status === "pending") {
+    $("registerModal").classList.add("hidden");
+    showOnly("pendingBox");
+} else {
+    $("registerModal").classList.add("hidden");
+    showDashboard({ fullName, gender, email, role, status });
+
                                                                                                                                                       }
                                                                                                                                                         } catch (error) {
                                                                                                                                                             message(error.message);
