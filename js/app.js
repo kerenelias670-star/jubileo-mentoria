@@ -1,209 +1,216 @@
 
 import {
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+    signInWithEmailAndPassword,
+      signOut,
+        onAuthStateChanged
+        } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
-import {
-  doc,
-  getDoc,
-  setDoc,
-  updateDoc,
-  collection,
-  query,
-  where,
-  onSnapshot,
-  serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
-import { auth, db } from "./firebase-config.js";
-
-
-const ADMIN_EMAIL = "kerenelias670@gmail.com";
+        import {
+          doc,
+            getDoc,
+              setDoc,
+                updateDoc,
+                  collection,
+                    query,
+                      where,
+                        onSnapshot,
+                          serverTimestamp
+                          } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+                          import { auth, db } from "./firebase-config.js";
 
 
+                          const ADMIN_EMAIL = "kerenelias670@gmail.com";
 
-const $ = (id) => document.getElementById(id);
 
-function showOnly(sectionId) {
-  ["authBox", "pendingBox", "dashboard"].forEach(id => {
-    $(id).classList.add("hidden");
-  });
 
-  $(sectionId).classList.remove("hidden");
-}
+                          const $ = (id) => document.getElementById(id);
 
-function message(text) {
-  $("authMessage").textContent = text;
-}
+                          function showOnly(sectionId) {
+                            ["authBox", "pendingBox", "dashboard"].forEach(id => {
+                                $(id).classList.add("hidden");
+                                  });
 
-async function createAccount() {
-  const fullName = $("fullName").value.trim();
-  const gender = $("gender").value;
-  const email = $("email").value.trim().toLowerCase();
-  const password = $("password").value.trim();
+                                    $(sectionId).classList.remove("hidden");
+                                    }
 
-  if (!fullName || !gender || !email || !password) {
-    message("Por favor completa todos los campos.");
-    return;
-  }
+                                    function message(text) {
+                                      $("authMessage").textContent = text;
+                                      }
 
-  try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
+                                      async function createAccount() {
+                                        const fullName = $("fullName").value.trim();
+                                          const gender = $("gender").value;
+                                            const email = $("email").value.trim().toLowerCase();
+                                              const password = $("password").value.trim();
 
-    const role = email === ADMIN_EMAIL ? "admin" : "participant";
-    const status = email === ADMIN_EMAIL ? "approved" : "pending";
+                                                if (!fullName || !gender || !email || !password) {
+                                                    message("Por favor completa todos los campos.");
+                                                        return;
+                                                          }
 
-    await setDoc(doc(db, "users", user.uid), {
-      uid: user.uid,
-      fullName,
-      gender,
-      email,
-      role,
-      status,
-      createdAt: serverTimestamp()
-    });
+                                                            try {
+                                                                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                                                                    const user = userCredential.user;
 
-    if (status === "pending") {
-      showOnly("pendingBox");
-    } else {
-      showDashboard({ fullName, gender, email, role, status });
-    }
-  } catch (error) {
-    message(error.message);
-  }
-}
+                                                                        const role = email === ADMIN_EMAIL ? "admin" : "participant";
+                                                                            const status = email === ADMIN_EMAIL ? "approved" : "pending";
 
-async function login() {
-  const email = $("email").value.trim().toLowerCase();
-  const password = $("password").value.trim();
+                                                                                await setDoc(doc(db, "users", user.uid), {
+                                                                                      uid: user.uid,
+                                                                                            fullName,
+                                                                                                  gender,
+                                                                                                        email,
+                                                                                                              role,
+                                                                                                                    status,
+                                                                                                                          createdAt: serverTimestamp()
+                                                                                                                              });
 
-  if (!email || !password) {
-    message("Escribe tu correo y contraseña.");
-    return;
-  }
+                                                                                                                                  if (status === "pending") {
+                                                                                                                                        showOnly("pendingBox");
+                                                                                                                                            } else {
+                                                                                                                                                  showDashboard({ fullName, gender, email, role, status });
+                                                                                                                                                      }
+                                                                                                                                                        } catch (error) {
+                                                                                                                                                            message(error.message);
+                                                                                                                                                              }
+                                                                                                                                                              }
 
-  try {
-    await signInWithEmailAndPassword(auth, email, password);
-  } catch {
-    message("Correo o contraseña incorrectos.");
-  }
-}
+                                                                                                                                                              async function login() {
+                                                                                                                                                                const email = $("email").value.trim().toLowerCase();
+                                                                                                                                                                  const password = $("password").value.trim();
 
-async function logout() {
-  await signOut(auth);
-}
+                                                                                                                                                                    if (!email || !password) {
+                                                                                                                                                                        message("Escribe tu correo y contraseña.");
+                                                                                                                                                                            return;
+                                                                                                                                                                              }
 
-async function getProfile(user) {
-  const snap = await getDoc(doc(db, "users", user.uid));
-  return snap.exists() ? snap.data() : null;
-}
+                                                                                                                                                                                try {
+                                                                                                                                                                                    await signInWithEmailAndPassword(auth, email, password);
+                                                                                                                                                                                      } catch {
+                                                                                                                                                                                          message("Correo o contraseña incorrectos.");
+                                                                                                                                                                                            }
+                                                                                                                                                                                            }
 
-function showDashboard(profile) {
-  showOnly("dashboard");
+                                                                                                                                                                                            async function logout() {
+                                                                                                                                                                                              await signOut(auth);
+                                                                                                                                                                                              }
 
-  const welcome = profile.gender === "male" ? "Bienvenido" : "Bienvenida";
-  $("welcomeTitle").textContent = `${welcome}, ${profile.fullName}`;
-  $("roleText").textContent =
-    profile.role === "admin"
-      ? "Rol: Administradora"
-      : profile.role === "pastor"
-      ? "Rol: Pastor(a)"
-      : "Rol: Participante";
+                                                                                                                                                                                              async function getProfile(user) {
+                                                                                                                                                                                                const snap = await getDoc(doc(db, "users", user.uid));
+                                                                                                                                                                                                  return snap.exists() ? snap.data() : null;
+                                                                                                                                                                                                  }
 
- if (profile.role === "admin" || profile.role === "pastor") {
-    $("adminPanel").classList.remove("hidden");
-  } else {
-    $("adminPanel").classList.add("hidden");
-  }
-}
+                                                                                                                                                                                                  function showDashboard(profile) {
+                                                                                                                                                                                                    showOnly("dashboard");
 
-onAuthStateChanged(auth, async (user) => {
-  if (!user) {
-    showOnly("authBox");
-    return;
-  }
+                                                                                                                                                                                                      const welcome = profile.gender === "male" ? "Bienvenido" : "Bienvenida";
+                                                                                                                                                                                                        $("welcomeTitle").textContent = `${welcome}, ${profile.fullName}`;
+                                                                                                                                                                                                          $("roleText").textContent =
+                                                                                                                                                                                                              profile.role === "admin"
+                                                                                                                                                                                                                    ? "Rol: Administradora"
+                                                                                                                                                                                                                          : profile.role === "pastor"
+                                                                                                                                                                                                                                ? "Rol: Pastor(a)"
+                                                                                                                                                                                                                                      : "Rol: Participante";
 
-  const profile = await getProfile(user);
+                                                                                                                                                                                                                                       if (profile.role === "admin" || profile.role === "pastor") {
+                                                                                                                                                                                                                                           $("adminPanel").classList.remove("hidden");
+                                                                                                                                                                                                                                             } else {
+                                                                                                                                                                                                                                                 $("adminPanel").classList.add("hidden");
+                                                                                                                                                                                                                                                   }
+                                                                                                                                                                                                                                                   }
 
-  if (!profile) {
-    showOnly("pendingBox");
-    return;
-  }
+                                                                                                                                                                                                                                                   onAuthStateChanged(auth, async (user) => {
+                                                                                                                                                                                                                                                     if (!user) {
+                                                                                                                                                                                                                                                         showOnly("authBox");
+                                                                                                                                                                                                                                                             return;
+                                                                                                                                                                                                                                                               }
 
-  if (profile.status !== "approved") {
-    showOnly("pendingBox");
-    return;
-  }
+                                                                                                                                                                                                                                                                 const profile = await getProfile(user);
 
-  showDashboard(profile);
+                                                                                                                                                                                                                                                                   if (!profile) {
+                                                                                                                                                                                                                                                                       showOnly("pendingBox");
+                                                                                                                                                                                                                                                                           return;
+                                                                                                                                                                                                                                                                             }
+
+                                                                                                                                                                                                                                                                               if (profile.status !== "approved") {
+                                                                                                                                                                                                                                                                                   showOnly("pendingBox");
+                                                                                                                                                                                                                                                                                       return;
+                                                                                                                                                                                                                                                                                         }
+showDashboard(profile);
 
 if (profile.role === "admin" || profile.role === "pastor") {
-  listenPendingUsers(profile);
+    listenPendingUsers(profile);
 }
-});
+                                                                                                                                                                                                                                                                                           
 
-$("registerBtn").addEventListener("click", createAccount);
-$("loginBtn").addEventListener("click", login);
-$("logoutBtn").addEventListener("click", logout);
-$("logoutPending").addEventListener("click", logout);
-$("openRegisterBtn").addEventListener("click", () => {
-  $("registerModal").classList.remove("hidden");
-});
+                                                                                                                                                                                                                                                                                          
 
-$("closeRegisterBtn").addEventListener("click", () => {
-  $("registerModal").classList.add("hidden");
-});function canLead(profile) {
-  return profile.role === "admin" || profile.role === "pastor";
-}
 
-function listenPendingUsers(profile) {
-  if (!canLead(profile)) return;
+                                                                                                                                                                                                                                                                                             
+                                                                                                                                                                                                                                                                                             });
 
-  const q = query(collection(db, "users"), where("status", "==", "pending"));
+                                                                                                                                                                                                                                                                                             $("registerBtn").addEventListener("click", createAccount);
+                                                                                                                                                                                                                                                                                             $("loginBtn").addEventListener("click", login);
+                                                                                                                                                                                                                                                                                             $("logoutBtn").addEventListener("click", logout);
+                                                                                                                                                                                                                                                                                             $("logoutPending").addEventListener("click", logout);
+                                                                                                                                                                                                                                                                                             $("openRegisterBtn").addEventListener("click", () => {
+                                                                                                                                                                                                                                                                                               $("registerModal").classList.remove("hidden");
+                                                                                                                                                                                                                                                                                               });
 
-  onSnapshot(q, (snapshot) => {
-    const box = $("pendingUsers");
+                                                                                                                                                                                                                                                                                               $("closeRegisterBtn").addEventListener("click", () => {
+                                                                                                                                                                                                                                                                                                 $("registerModal").classList.add("hidden");
 
-    if (snapshot.empty) {
-      box.innerHTML = "<p>No hay solicitudes pendientes.</p>";
-      return;
-    }
+                                                                                                                                                                                                                                                                                                 });
+                                                                                                                                                                                                                                                                                                 function canLead(profile) {
+                                                                                                                                                                                                                                                                                                   return profile.role === "admin" || profile.role === "pastor";
+                                                                                                                                                                                                                                                                                                   }
 
-    box.innerHTML = "";
+                                                                                                                                                                                                                                                                                                   function listenPendingUsers(profile) {
+                                                                                                                                                                                                                                                                                                     if (!canLead(profile)) return;
 
-    snapshot.forEach((docSnap) => {
-      const user = docSnap.data();
+                                                                                                                                                                                                                                                                                                       const q = query(collection(db, "users"), where("status", "==", "pending"));
 
-      const card = document.createElement("div");
-      card.className = "user-request";
-      card.innerHTML = `
-        <p><strong>${user.fullName}</strong></p>
-        <p>${user.email}</p>
-        <p>${user.gender === "male" ? "Hombre" : "Mujer"}</p>
-        <button data-id="${docSnap.id}" data-role="participant">Aprobar participante</button>
-        <button data-id="${docSnap.id}" data-role="pastor">Aprobar pastor(a)</button>
-        <button data-id="${docSnap.id}" data-role="rejected" class="danger">Rechazar</button>
-      `;
+                                                                                                                                                                                                                                                                                                         onSnapshot(q, (snapshot) => {
+                                                                                                                                                                                                                                                                                                             const box = $("pendingUsers");
 
-      card.querySelectorAll("button").forEach((btn) => {
-        btn.addEventListener("click", async () => {
-          if (btn.dataset.role === "rejected") {
-            await updateDoc(doc(db, "users", btn.dataset.id), {
-              status: "rejected"
-            });
-          } else {
-            await updateDoc(doc(db, "users", btn.dataset.id), {
-              status: "approved",
-              role: btn.dataset.role
-            });
-          }
-        });
-      });
+                                                                                                                                                                                                                                                                                                                 if (snapshot.empty) {
+                                                                                                                                                                                                                                                                                                                       box.innerHTML = "<p>No hay solicitudes pendientes.</p>";
+                                                                                                                                                                                                                                                                                                                             return;
+                                                                                                                                                                                                                                                                                                                                 }
 
-      box.appendChild(card);
-    });
-  });
-}
+                                                                                                                                                                                                                                                                                                                                     box.innerHTML = "";
+
+                                                                                                                                                                                                                                                                                                                                         snapshot.forEach((docSnap) => {
+                                                                                                                                                                                                                                                                                                                                               const user = docSnap.data();
+
+                                                                                                                                                                                                                                                                                                                                                     const card = document.createElement("div");
+                                                                                                                                                                                                                                                                                                                                                           card.className = "user-request";
+                                                                                                                                                                                                                                                                                                                                                                 card.innerHTML = `
+                                                                                                                                                                                                                                                                                                                                                                         <p><strong>${user.fullName}</strong></p>
+                                                                                                                                                                                                                                                                                                                                                                                 <p>${user.email}</p>
+                                                                                                                                                                                                                                                                                                                                                                                         <p>${user.gender === "male" ? "Hombre" : "Mujer"}</p>
+                                                                                                                                                                                                                                                                                                                                                                                                 <button data-id="${docSnap.id}" data-role="participant">Aprobar participante</button>
+                                                                                                                                                                                                                                                                                                                                                                                                         <button data-id="${docSnap.id}" data-role="pastor">Aprobar pastor(a)</button>
+                                                                                                                                                                                                                                                                                                                                                                                                                 <button data-id="${docSnap.id}" data-role="rejected" class="danger">Rechazar</button>
+                                                                                                                                                                                                                                                                                                                                                                                                                       `;
+
+                                                                                                                                                                                                                                                                                                                                                                                                                             card.querySelectorAll("button").forEach((btn) => {
+                                                                                                                                                                                                                                                                                                                                                                                                                                     btn.addEventListener("click", async () => {
+                                                                                                                                                                                                                                                                                                                                                                                                                                               if (btn.dataset.role === "rejected") {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                           await updateDoc(doc(db, "users", btn.dataset.id), {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                         status: "rejected"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     });
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               } else {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           await updateDoc(doc(db, "users", btn.dataset.id), {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         status: "approved",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       role: btn.dataset.role
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   });
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     });
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           });
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 box.appendChild(card);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     });
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       });
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       }
