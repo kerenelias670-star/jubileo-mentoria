@@ -434,4 +434,25 @@ hr {
 select:focus {
     border-color: #d4af37;
     box-shadow: 0 0 0 3px rgba(212,175,55,.2);
+}.user-request{
+    background: rgba(255,255,255,.75);
+    backdrop-filter: blur(12px);
+    border:1px solid rgba(212,175,55,.25);
+    border-radius:18px;
+    padding:22px;
+    margin:20px 0;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.user-request p{
+    margin:6px 0;
+}
+
+.user-request button{
+    width:100%;
+    margin-top:10px;
+}
+
+.user-request .danger{
+    background:#b3261e;
 }
