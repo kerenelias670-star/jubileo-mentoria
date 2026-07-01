@@ -41,8 +41,8 @@ import {
                                       async function createAccount() {
                                         const fullName = $("fullName").value.trim();
                                           const gender = $("gender").value;
-                                            const email = $("email").value.trim().toLowerCase();
-                                              const password = $("password").value.trim();
+                                            const email = $("registerEmail").value.trim().toLowerCase();
+                                              const password = $("registerPassword").value.trim();
 
                                                 if (!fullName || !gender || !email || !password) {
                                                     message("Por favor completa todos los campos.");
