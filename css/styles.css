@@ -416,4 +416,22 @@ hr {
   min-height: 620px;
   object-fit: cover;
   object-position: center center;
+}select {
+    width: 100%;
+    padding: 18px 20px;
+    border-radius: 18px;
+    border: 1px solid rgba(212,175,55,.35);
+    background: #fff;
+    color: #1b2b52;
+    font-size: 18px;
+    font-family: inherit;
+    margin-bottom: 20px;
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+}
+
+select:focus {
+    border-color: #d4af37;
+    box-shadow: 0 0 0 3px rgba(212,175,55,.2);
 }

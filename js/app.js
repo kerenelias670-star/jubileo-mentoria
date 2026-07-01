@@ -1,6 +1,5 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+
 import {
-  getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
@@ -8,27 +7,17 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
 import {
-  getFirestore,
   doc,
   getDoc,
   setDoc,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+import { auth, db } from "./firebase-config.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBrG7tE-Nkfpv810qiDgd1t98maNjFGPac",
-  authDomain: "jubileomentoria.firebaseapp.com",
-  projectId: "jubileomentoria",
-  storageBucket: "jubileomentoria.firebasestorage.app",
-  messagingSenderId: "15593767205",
-  appId: "1:15593767205:web:5146658ce9be6332209acc"
-};
 
 const ADMIN_EMAIL = "kerenelias670@gmail.com";
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+
 
 const $ = (id) => document.getElementById(id);
 
@@ -36,6 +25,7 @@ function showOnly(sectionId) {
   ["authBox", "pendingBox", "dashboard"].forEach(id => {
     $(id).classList.add("hidden");
   });
+
   $(sectionId).classList.remove("hidden");
 }
 
@@ -118,7 +108,7 @@ function showDashboard(profile) {
       ? "Rol: Pastor(a)"
       : "Rol: Participante";
 
-  if (profile.role === "admin") {
+ if (profile.role === "admin" || profile.role === "pastor") {
     $("adminPanel").classList.remove("hidden");
   } else {
     $("adminPanel").classList.add("hidden");
@@ -149,7 +139,8 @@ onAuthStateChanged(auth, async (user) => {
 $("registerBtn").addEventListener("click", createAccount);
 $("loginBtn").addEventListener("click", login);
 $("logoutBtn").addEventListener("click", logout);
-$("logoutPending").addEventListener("click", logout);$("openRegisterBtn").addEventListener("click", () => {
+$("logoutPending").addEventListener("click", logout);
+$("openRegisterBtn").addEventListener("click", () => {
   $("registerModal").classList.remove("hidden");
 });
 
