@@ -496,4 +496,184 @@ select:focus {
     margin-top:8px;
     color:#555;
     font-weight:600;
+}/* ===== Inside Portal Dashboard ===== */
+
+.appTopbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 24px;
+  padding: 14px 18px;
+  margin-bottom: 18px;
+  color: white;
+}
+
+.brandSmall {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brandCrown {
+  color: #f4d27a;
+  font-size: 34px;
+}
+
+.brandSmall small {
+  display: block;
+  color: #f4e7c5;
+}
+
+.topbarRight {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.insideHero {
+  background: linear-gradient(135deg, #fffdf8, #fff3d8);
+  border: 1px solid rgba(198,155,76,.55);
+  border-radius: 34px;
+  padding: 42px 28px;
+  text-align: center;
+  box-shadow: 0 30px 80px rgba(0,0,0,.25);
+  margin-bottom: 22px;
+}
+
+.crown {
+  font-size: 46px;
+  color: #c69b4c;
+}
+
+.insideHero h1 {
+  font-size: 82px;
+  color: #071d3d;
+  margin: 0;
+}
+
+.insideSubtitle {
+  color: #c69b4c;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.insideVerse {
+  max-width: 760px;
+  margin: 16px auto 8px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 25px;
+  color: #293a55;
+}
+
+.dashboardGrid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.portalCard {
+  background: #fffdf8;
+  border: 1px solid rgba(234,220,195,.95);
+  border-radius: 28px;
+  padding: 24px;
+  box-shadow: 0 20px 50px rgba(0,0,0,.17);
+}
+
+.largeCard {
+  grid-row: span 2;
+}
+
+.portalCard h2 {
+  font-family: "Great Vibes", cursive;
+  font-size: 44px;
+  color: #071d3d;
+  margin: 0 0 10px;
+}
+
+.portalCard h3 {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 30px;
+  color: #071d3d;
+  margin: 8px 0;
+}
+
+.cardIcon {
+  font-size: 34px;
+  margin-bottom: 10px;
+}
+
+.dateText {
+  color: #c69b4c;
+  font-weight: 800;
+}
+
+.cardActions,
+.leadershipActions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+
+.outlineBtn {
+  background: white;
+  color: #071d3d;
+  border: 1px solid #eadcc3;
+  box-shadow: none;
+}
+
+.goldBtn {
+  background: linear-gradient(135deg, #c69b4c, #f4d27a);
+  color: #071d3d;
+}
+
+.archiveCard {
+  margin-bottom: 18px;
+}
+
+.archiveGrid {
+  display: grid;
+  gap: 12px;
+}
+
+.archiveItem {
+  background: white;
+  border: 1px solid #eadcc3;
+  border-radius: 18px;
+  padding: 14px;
+}
+
+.archiveItem small,
+.archiveItem span {
+  display: block;
+  color: #727988;
+}
+
+.archiveItem strong {
+  color: #071d3d;
+}
+
+.leadershipPanel {
+  margin-bottom: 18px;
+}
+
+@media (max-width: 900px) {
+  .dashboardGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .insideHero h1 {
+    font-size: 58px;
+  }
+
+  .appTopbar,
+  .topbarRight {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

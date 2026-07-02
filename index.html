@@ -2,157 +2,209 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Jubileo Mentoría Pastoral</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>Jubileo Mentoría Pastoral</title>
+      
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800&family=Great+Vibes&display=swap" rel="stylesheet">
+            
+              <link rel="stylesheet" href="css/styles.css" />
+              </head>
+              
+              <body>
+                <main class="app">
+                
+                    <section class="splitHero">
+                          <div class="pastorSide">
+                                  <img src="images/pastores.jpg" alt="Pastores Jubileo">
+                                        </div>
+                                        
+                                              <div class="loginSide">
+                                                      <section class="glassLogin" id="authBox">
+                                                                <h1>Mentoría Pastoral</h1>
+                                                                
+                                                                          <p class="heroVerse">
+                                                                                      “Siguiendo la verdad en amor, crezcamos en todo en aquel que es la cabeza, esto es, Cristo.”
+                                                                                                </p>
+                                                                                                          <small>Efesios 4:15</small>
+                                                                                                          
+                                                                                                                    <div class="loginFields">
+                                                                                                                                <input id="email" type="email" placeholder="Correo electrónico" />
+                                                                                                                                            <input id="password" type="password" placeholder="Contraseña" />
+                                                                                                                                                      </div>
+                                                                                                                                                      
+                                                                                                                                                                <button id="loginBtn">Entrar</button>
+                                                                                                                                                                
+                                                                                                                                                                          <div class="createLine">
+                                                                                                                                                                                      ¿Primera vez?
+                                                                                                                                                                                                  <button id="openRegisterBtn" class="linkBtn">Crear cuenta</button>
+                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                            
+                                                                                                                                                                                                                      <p id="authMessage" class="message"></p>
+                                                                                                                                                                                                                              </section>
+                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                        </section>
+                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                            <section class="card hidden" id="pendingBox">
+                                                                                                                                                                                                                                                  <h2>¡Tu cuenta ha sido creada con éxito!</h2>
+                                                                                                                                                                                                                                                        <p>Tu cuenta será activada por la administradora en breve.</p>
+                                                                                                                                                                                                                                                              <p>¡Nos alegra tenerte como parte de Mentoría Pastoral de Jubileo Church!</p>
+                                                                                                                                                                                                                                                                    <button id="logoutPending" class="danger">Salir</button>
+                                                                                                                                                                                                                                                                        </section>
+                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                          <section class="hidden" id="dashboard">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800&family=Great+Vibes&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="css/styles.css" />
-</head>
-
-<body>
-  <main class="app">
-
-    <section class="splitHero">
-      <div class="pastorSide">
-        <img src="images/pastores.jpg" alt="Pastores Jubileo">
-      </div>
-
-      <div class="loginSide">
-        <section class="glassLogin" id="authBox">
-          <h1>Mentoría Pastoral</h1>
-
-          <p class="heroVerse">
-            “Siguiendo la verdad en amor, crezcamos en todo en aquel que es la cabeza, esto es, Cristo.”
-          </p>
-          <small>Efesios 4:15</small>
-
-          <div class="loginFields">
-            <input id="email" type="email" placeholder="Correo electrónico" />
-            <input id="password" type="password" placeholder="Contraseña" />
-          </div>
-
-          <button id="loginBtn">Entrar</button>
-
-          <div class="createLine">
-            ¿Primera vez?
-            <button id="openRegisterBtn" class="linkBtn">Crear cuenta</button>
-          </div>
-
-          <p id="authMessage" class="message"></p>
-        </section>
-      </div>
-    </section>
-
-    <section class="card hidden" id="pendingBox">
-      <h2>¡Tu cuenta ha sido creada con éxito!</h2>
-      <p>Tu cuenta será activada por la administradora en breve.</p>
-      <p>¡Nos alegra tenerte como parte de Mentoría Pastoral de Jubileo Church!</p>
-      <button id="logoutPending" class="danger">Salir</button>
-    </section>
-
-    <section class="hidden" id="dashboard">
-      <div class="topbar">
-        <div>
-          <strong id="welcomeTitle">Bienvenido(a)</strong>
-          <span id="roleText" class="role"></span>
-        </div>
-
-        <div class="row">
-          <button id="logoutBtn" class="light">Salir</button>
-        </div>
-      </div>
-
-      <section class="card" id="adminPanel">
-      <h2>👑 Panel de Liderazgo</h2>
-
-<p class="muted">
-Administra accesos, roles y solicitudes de Mentoría Pastoral.
-</p>
-
-<div class="statsGrid">
-  <div class="statCard">
-    <span>⏳</span>
-    <strong id="pendingCount">0</strong>
-    <p>Solicitudes pendientes</p>
-  </div>
-
-  <div class="statCard">
-    <span>👥</span>
-    <strong id="participantCount">0</strong>
-    <p>Participantes</p>
-  </div>
-
-  <div class="statCard">
-    <span>👨‍🏫</span>
-    <strong id="pastorCount">0</strong>
-    <p>Pastores</p>
-  </div>
-
-  <div class="statCard">
-    <span>👑</span>
-    <strong id="adminCount">0</strong>
-    <p>Administradores</p>
-  </div>
-</div>
-
-<hr>
-
-<h3>Solicitudes pendientes</h3>
-<div id="pendingUsers"></div>
-      </section>
-
-      <section class="card">
-        <h3>Aspectos Destacados de la Mentoría</h3>
-        <p class="muted">Participantes solo pueden leer esta sección.</p>
-        <textarea id="highlightsText" placeholder="Escribe aquí los aspectos destacados..."></textarea>
-        <button id="saveHighlights">Guardar aspectos destacados</button>
-      </section>
-
-      <section class="card">
-        <h3>Mi Cuaderno Personal</h3>
-        <textarea id="personalNote" placeholder="Escribe tus notas personales aquí..."></textarea>
-        <label class="checkline">
-          <input type="checkbox" id="shareNote" />
-          Compartir con el equipo
-        </label>
-        <button id="saveNote">Guardar nota</button>
-      </section>
-
-      <section class="card">
-        <h3>Mensaje Pastoral</h3>
-        <p class="muted">Todos pueden leer. Solo pastores y administradora pueden editar.</p>
-        <textarea id="pastoralMessage" placeholder="Mensaje pastoral..."></textarea>
-        <button id="savePastoral">Guardar mensaje pastoral</button>
-      </section>
-    </section>
-
-    <div class="modal hidden" id="registerModal">
-      <div class="modalCard">
-        <button class="closeBtn" id="closeRegisterBtn">×</button>
-        <h2>Crear cuenta</h2>
-        <p class="muted">Completa tu información. Tu acceso será aprobado por la administradora.</p>
-
-        <input id="fullName" type="text" placeholder="Nombre completo" />
-
-        <select id="gender">
-          <option value="">Selecciona tu sexo</option>
-          <option value="female">Mujer</option>
-          <option value="male">Hombre</option>
-        </select>
-
-        <input id="registerEmail" type="email" placeholder="Correo electrónico" />
-        <input id="registerPassword" type="password" placeholder="Contraseña" />
-        <input id="confirmPassword" type="password" placeholder="Confirmar contraseña" />
-
-        <button id="registerBtn">Crear cuenta</button>
+  <div class="appTopbar">
+    <div class="brandSmall">
+      <span class="brandCrown">♛</span>
+      <div>
+        <strong>Jubileo</strong>
+        <small>Mentoría Pastoral</small>
       </div>
     </div>
 
-  </main>
+    <div class="topbarRight">
+      <div>
+        <strong id="welcomeTitle">Bienvenido(a)</strong>
+        <span id="roleText" class="role"></span>
+      </div>
+      <button id="logoutBtn" class="light">Salir</button>
+    </div>
+  </div>
 
-  <script type="module" src="js/app.js"></script>
-</body>
-</html>
+  <section class="insideHero">
+    <div class="insideHeroContent">
+      <div class="crown">♛</div>
+      <h1>Mentoría Pastoral</h1>
+      <p class="insideSubtitle">Jubileo Iglesia</p>
+      <p class="insideVerse">
+        “Siguiendo la verdad en amor, crezcamos en todo en aquel que es la cabeza, esto es, Cristo.”
+      </p>
+      <small>Efesios 4:15</small>
+    </div>
+  </section>
+
+  <section class="dashboardGrid">
+
+    <div class="portalCard largeCard">
+      <div class="cardIcon">📖</div>
+      <div>
+        <h2>Última Mentoría</h2>
+        <p class="dateText">2 de Julio, 2026</p>
+        <h3>El corazón del siervo</h3>
+        <p class="muted">Pastora Eunice</p>
+
+        <div class="cardActions">
+          <button>Ver Resumen</button>
+          <button class="outlineBtn">Descargar PDF</button>
+          <button class="goldBtn">▶ Ver Video</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="portalCard">
+      <div class="cardIcon">📝</div>
+      <h2>Mis Notas</h2>
+      <p class="muted">Escribe tus notas durante la mentoría.</p>
+      <button>Abrir mis notas</button>
+    </div>
+
+    <div class="portalCard">
+      <div class="cardIcon">👥</div>
+      <h2>Reflexiones del Equipo</h2>
+      <p class="muted">Lee y comparte lo que Dios habló a nuestros corazones.</p>
+      <button class="outlineBtn">Ver reflexiones</button>
+    </div>
+
+    <div class="portalCard">
+      <div class="cardIcon">📢</div>
+      <h2>Mensajes Pastorales</h2>
+      <p class="muted">Avisos importantes de nuestros pastores.</p>
+      <button class="outlineBtn">Ver mensajes</button>
+    </div>
+
+    <div class="portalCard">
+      <div class="cardIcon">🙏</div>
+      <h2>Peticiones de Oración</h2>
+      <p class="muted">Comparte tus peticiones y oremos unos por otros.</p>
+      <button class="outlineBtn">Ver peticiones</button>
+    </div>
+
+  </section>
+
+  <section class="portalCard archiveCard">
+    <h2>📚 Mentorías Anteriores</h2>
+
+    <div class="archiveGrid">
+      <div class="archiveItem">
+        <small>25 de Junio, 2026</small>
+        <strong>Renovados en el Espíritu</strong>
+        <span>Pastor Edwin</span>
+      </div>
+
+      <div class="archiveItem">
+        <small>18 de Junio, 2026</small>
+        <strong>Identidad en Cristo</strong>
+        <span>Pastora Laura</span>
+      </div>
+
+      <div class="archiveItem">
+        <small>11 de Junio, 2026</small>
+        <strong>Fe que transforma</strong>
+        <span>Pastor Edwin</span>
+      </div>
+
+      <button class="outlineBtn">Ver todas las mentorías</button>
+    </div>
+  </section>
+
+  <section class="portalCard leadershipPanel" id="adminPanel">
+    <div>
+      <h2>👑 Panel de Liderazgo</h2>
+      <p class="muted">Solo para administradores y pastores</p>
+    </div>
+
+    <div class="leadershipActions">
+      <button class="light">➕ Nueva Mentoría</button>
+      <button class="light">👥 Gestionar Usuarios</button>
+      <button class="light">📢 Mensajes Pastorales</button>
+      <button class="light">🙏 Peticiones de Oración</button>
+      <button class="light">📖 Administrar Mentorías</button>
+    </div>
+
+    <hr>
+
+    <h3>Solicitudes pendientes</h3>
+    <div id="pendingUsers"></div>
+  </section>
+
+</section>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      <div class="modal hidden" id="registerModal">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <div class="modalCard">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <button class="closeBtn" id="closeRegisterBtn">×</button>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <h2>Crear cuenta</h2>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <p class="muted">Completa tu información. Tu acceso será aprobado por la administradora.</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <input id="fullName" type="text" placeholder="Nombre completo" />
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <select id="gender">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              <option value="">Selecciona tu sexo</option>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <option value="female">Mujer</option>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  <option value="male">Hombre</option>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </select>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  <input id="registerEmail" type="email" placeholder="Correo electrónico" />
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          <input id="registerPassword" type="password" placeholder="Contraseña" />
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  <input id="confirmPassword" type="password" placeholder="Confirmar contraseña" />
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          <button id="registerBtn">Crear cuenta</button>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </main>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <script type="module" src="js/app.js"></script>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </body>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </html>>
